@@ -482,7 +482,7 @@ void time(int val) {
 	while (i < bulletArray.size()) {
 		if (Leval2) {
 			bulletArray[i].x = bulletArray[i].x - 0.05;
-			if (bulletArray[i].x < -0.7) {
+			if (bulletArray[i].x < -1.1) {
 				bulletArray[i].x = 10000000;
 			}
 		}
