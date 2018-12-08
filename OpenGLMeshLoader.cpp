@@ -43,7 +43,6 @@ int counter;
 bool moveCannon = false;
 bool Leval2 = false;
 
-bool phase = false;
 
 using std::vector;
 using namespace std;
@@ -58,6 +57,8 @@ Model_3DS model_building2;
 Model_3DS model_sheild;
 
 GLuint tex;
+GLuint tex2;
+
 class Bullet {
 public:
 	double x;
@@ -326,6 +327,23 @@ void drawBackG() {
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
+void drawBackG2() {
+	glPushMatrix();
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
+	GLUquadricObj * qobj;
+	qobj = gluNewQuadric();
+	glTranslated(50, 30, 30);
+	glRotated(90, 1, 0, 1);
+	glBindTexture(GL_TEXTURE_2D, tex2);
+	gluQuadricTexture(qobj, true);
+	gluQuadricNormals(qobj, GL_SMOOTH);
+	gluSphere(qobj, 100, 100, 100);
+	gluDeleteQuadric(qobj);
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
 void LoadAssets()
 {
 	// Loading Model files
@@ -340,11 +358,21 @@ void LoadAssets()
 
 	// Loading texture files
 	//tex_ground.Load("Textures/ground.bmp");
-	//loadBMP(&tex, "Textures/sunset.bmp", true);
+	loadBMP(&tex2, "Textures/sunset.bmp", true);
+	loadBMP(&tex, "Textures/blu-sky-3.bmp", true);
+
 }
 void drawBullet() {
 	drawShoots();
 	shoot(bulletX, bulletZ);
+}
+void drawTexture() {
+	if (Leval2) {
+		drawBackG2();
+	}
+	else {
+		drawBackG();
+	}
 }
 void Display() {
 	setupCamera();
@@ -364,7 +392,8 @@ void Display() {
 	drawCannon();
 
 	//	The background
-	drawBackG();
+
+	drawTexture();
 
 	//	The First Building
 	//First_Building();
@@ -426,21 +455,45 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 		//Cannon view
 	case'1':
-		camera.eye = Vector3f(1.175055, 0.230940, 1.175055);
-		camera.center = Vector3f(0.470695, 0.142894, 0.470695);
-		camera.up = Vector3f(-0.062258, 0.996117, -0.062258);
+		if (Leval2) {
+			camera.eye = Vector3f(-0.238113, 0.252845, -0.025670);
+			camera.center = Vector3f(-1.232665, 0.202585, 0.065665);
+			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
+		}
+		else {
+			camera.eye = Vector3f(1.175055, 0.230940, 1.175055);
+			camera.center = Vector3f(0.470695, 0.142894, 0.470695);
+			camera.up = Vector3f(-0.062258, 0.996117, -0.062258);
+		}
+
 		break;
 		//Normal view
 	case'2':
-		camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
-		camera.center = Vector3f(1.518272, 0.778625, 1.518272);
-		camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
+		if (Leval2) {
+			camera.eye = Vector3f(1.158504, 0.485429, -0.054893);
+			camera.center = Vector3f(0.165317, 0.440999, 0.052837);
+			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
+		}
+		else {
+			camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
+			camera.center = Vector3f(1.518272, 0.778625, 1.518272);
+			camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
+		}
+
 		break;
 		//Top view
 	case'3':
-		camera.eye = Vector3f(0.713336, 3.862442, 0.685207);
-		camera.center = Vector3f(0.568973, 2.877508, 0.589999);
-		camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
+		if (Leval2) {
+			camera.eye = Vector3f(-1.478001, 3.826365, 1.043186);
+			camera.center = Vector3f(-1.364208, 2.912856, 0.652606);
+			camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
+		}
+		else {
+			camera.eye = Vector3f(0.713336, 3.862442, 0.685207);
+			camera.center = Vector3f(0.568973, 2.877508, 0.589999);
+			camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
+		}
+
 		break;
 
 	case GLUT_KEY_ESCAPE:
@@ -472,7 +525,6 @@ void Special(int key, int x, int y) {
 
 //	Bullets time
 void time(int val) {
-	Leval2 = true;
 	if (Leval2) {
 		cannonX = 0;
 		cannonZ = 0;
@@ -482,7 +534,7 @@ void time(int val) {
 	while (i < bulletArray.size()) {
 		if (Leval2) {
 			bulletArray[i].x = bulletArray[i].x - 0.05;
-			if (bulletArray[i].x < -1.1) {
+			if (bulletArray[i].x < -1) {
 				bulletArray[i].x = 10000000;
 			}
 		}
@@ -495,8 +547,6 @@ void time(int val) {
 				bulletArray[i].z = 10000000;
 			}
 		}
-
-
 		i++;
 	}
 	if ((counter > 1000) && (counter < 2000)) {
@@ -512,12 +562,7 @@ void time(int val) {
 	}
 	counter++;
 	Angle += 3;
-	if (!phase) {
-		loadBMP(&tex, "Textures/blu-sky-3.bmp", true);
-	}
-	if (phase) {
-		loadBMP(&tex, "Textures/sunset.bmp", true);
-	}
+
 	glutPostRedisplay();
 	glutTimerFunc(1, time, 0);
 }
