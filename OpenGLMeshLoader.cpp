@@ -198,6 +198,7 @@ void printCamera()
 }
 void Circle1() {
 	//Cylinder
+
 	glPushMatrix();
 	GLUquadricObj * qobj;
 	qobj = gluNewQuadric();
@@ -218,6 +219,7 @@ void Circle2() {
 	//Cylinder
 	glTranslated(-0.8, 0, 0);
 	glPushMatrix();
+	glTranslated(-0.8, 0, 0);
 	GLUquadricObj * qobj;
 	qobj = gluNewQuadric();
 	gluQuadricDrawStyle(qobj, GLU_LINE);
@@ -231,6 +233,7 @@ void Circle2() {
 	glScaled(1, 0.01, 1);
 	glutSolidSphere(0.2, 100, 100);*/
 	glPushMatrix();
+	glTranslated(-0.8, 0, 0);
 	glScaled(0.0096, 0.001, 0.0096);
 	model_circle.Draw();
 	glPopMatrix();
@@ -263,7 +266,7 @@ void First_Building() {
 }
 void Second_Building() {
 	glPushMatrix();
-	glTranslated(-1.18, 0.04, 0.12);
+	glTranslated(-2.4, 0.02, 0.12);
 	glScaled(0.008, 0.008, 0.008);
 	model_building2.Draw();
 	glPopMatrix();
