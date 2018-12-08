@@ -43,6 +43,7 @@ int counter;
 bool moveCannon = false;
 bool Leval2 = false;
 
+bool phase = false;
 
 using std::vector;
 using namespace std;
@@ -339,7 +340,7 @@ void LoadAssets()
 
 	// Loading texture files
 	//tex_ground.Load("Textures/ground.bmp");
-	loadBMP(&tex, "Textures/blu-sky-3.bmp", true);
+	//loadBMP(&tex, "Textures/sunset.bmp", true);
 }
 void drawBullet() {
 	drawShoots();
@@ -511,7 +512,12 @@ void time(int val) {
 	}
 	counter++;
 	Angle += 3;
-
+	if (!phase) {
+		loadBMP(&tex, "Textures/blu-sky-3.bmp", true);
+	}
+	if (phase) {
+		loadBMP(&tex, "Textures/sunset.bmp", true);
+	}
 	glutPostRedisplay();
 	glutTimerFunc(1, time, 0);
 }
