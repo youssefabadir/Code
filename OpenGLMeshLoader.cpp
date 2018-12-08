@@ -34,7 +34,9 @@ float cannonR = -135;
 
 int Angle = 0;
 int appear = 0;
-int scoreLevel_1 = 10;
+int scoreLevel_1[3];
+int scoreLevel_2[3];
+
 
 double ssx = 0;
 double ssy = 0;
@@ -44,6 +46,7 @@ int counter;
 bool moveCannon = false;
 bool Leval2 = false;
 bool showT1 = true;
+bool showSt = true;
 
 
 using std::vector;
@@ -57,6 +60,8 @@ Model_3DS model_circle;
 Model_3DS model_building1;
 Model_3DS model_building2;
 Model_3DS model_sheild;
+Model_3DS model_diamond;
+
 
 GLuint tex;
 GLuint tex2;
@@ -121,9 +126,7 @@ public:
 		center = Vector3f(centerX, centerY, centerZ);
 		up = Vector3f(upX, upY, upZ);
 	}
-	float showEye() {
 
-	}
 
 	void moveX(float d) {
 		Vector3f right = up.cross(center - eye).unit();
@@ -191,6 +194,16 @@ void drawShoots() {
 	}
 }
 
+void printText(double x, double y, double z, char *string)
+{
+	int len, i;
+	glRasterPos3f(x, y, z);
+	len = (int)strlen(string);
+	for (i = 0; i < len; i++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+	}
+}
 void print()
 {
 	printf("%f %f %f %f %f %f %d % d %d %d\n", xx, yy, zz, sx, sy, sz, angle, (msk & (1 << 2)) ? 1 : 0, (msk & (1 << 1)) ? 1 : 0, (msk & (1 << 0)) ? 1 : 0);
@@ -258,6 +271,7 @@ void drawWall2() {
 	glScaled(1.4, 0.05, 0.3);
 	glutSolidCube(1);
 	glPopMatrix();
+
 }
 void First_Building() {
 	//First building
@@ -356,6 +370,8 @@ void LoadAssets()
 	model_circle.Load("Models/sphere/sphere.3ds");
 	model_building1.Load("Models/building 1/building1.3ds");
 	model_building2.Load("Models/building2/building2.3ds");
+	model_diamond.Load("Models/diamond/star.3ds");
+
 	//model_sheild.Load("Models/sheild/sheild.3ds");
 
 	// Loading texture files
@@ -386,6 +402,16 @@ void drawTowers() {
 		}
 	}
 }
+void drawDiamond() {
+	if (showT1 == false && showSt == true) {
+		glPushMatrix();
+		glTranslated(0, 0.2, 0);
+		glScaled(0.05, 0.05, 0.05);
+		glRotated(Angle, 0, 1, 0);
+		model_diamond.Draw();
+		glPopMatrix();
+	}
+}
 void Display() {
 	setupCamera();
 	setupLights();
@@ -399,6 +425,12 @@ void Display() {
 	Circle2();
 	drawWall2();
 	glPopMatrix();
+	if (showT1) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0.8, 0.2, 0.9, (char *)p1s);
+	}
+
 
 	//	The player
 	drawCannon();
@@ -410,8 +442,11 @@ void Display() {
 	//	The Buildings
 	drawTowers();
 
-	// The bullet 
+	//	 The bullet 
 	drawBullet();
+
+	//	The diamond
+	drawDiamond();
 
 	/*glPushMatrix();
 	glTranslated(0.14, 0.04, 0.15);
@@ -459,7 +494,7 @@ void Keyboard(unsigned char key, int x, int y) {
 		moveCannon = !moveCannon;
 		break;
 	case'l':
-		Leval2 = !Leval2;
+		showT1 = false;
 		break;
 		//Cannon view
 	case'1':
@@ -473,7 +508,6 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.center = Vector3f(0.470695, 0.142894, 0.470695);
 			camera.up = Vector3f(-0.062258, 0.996117, -0.062258);
 		}
-
 		break;
 		//Normal view
 	case'2':
@@ -486,6 +520,8 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
 			camera.center = Vector3f(1.518272, 0.778625, 1.518272);
 			camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
+
+
 		}
 
 		break;
@@ -533,6 +569,7 @@ void Special(int key, int x, int y) {
 
 //	Bullets time
 void time(int val) {
+
 	if (Leval2) {
 		cannonX = 0;
 		cannonZ = 0;
@@ -553,10 +590,12 @@ void time(int val) {
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
-				scoreLevel_1 -= 1;
-				if (scoreLevel_1 <= 0) {
-					moveCannon = true;
+				scoreLevel_1[1] -= 1;
+				if (scoreLevel_1[1] == 0)
 					showT1 = false;
+				if (scoreLevel_1[1] == -1) {
+					moveCannon = true;
+					showSt = false;
 				}
 			}
 		}
@@ -605,6 +644,8 @@ void timeAll(int val) {
 }
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
+	scoreLevel_1[1] = 50;
+	scoreLevel_1[2] = 50;
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
