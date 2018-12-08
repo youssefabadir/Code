@@ -30,6 +30,12 @@ double cannonX = 1.4;
 double cannonZ = 1.4;
 
 int Angle = 0;
+int appear = 0;
+
+double ssx = 0;
+double ssy = 0;
+
+int counter;
 
 bool moveCannon = false;
 
@@ -44,6 +50,7 @@ Model_3DS model_ball;
 Model_3DS model_circle;
 Model_3DS model_building1;
 Model_3DS model_building2;
+Model_3DS model_sheild;
 
 GLuint tex;
 class Bullet {
@@ -321,6 +328,7 @@ void LoadAssets()
 	model_circle.Load("Models/sphere/sphere.3ds");
 	model_building1.Load("Models/building 1/building1.3ds");
 	model_building2.Load("Models/building2/building2.3ds");
+	model_sheild.Load("Models/sheild/sheild.3ds");
 
 	// Loading texture files
 	//tex_ground.Load("Textures/ground.bmp");
@@ -360,7 +368,12 @@ void Display() {
 	// The bullet 
 	drawBullet();
 
-
+	glPushMatrix();
+	glTranslated(0.14, 0.04, 0.15);
+	glScaled(ssx, ssy, ssx);
+	glRotated(40, 0, 1, 0);
+	model_sheild.Draw();
+	glPopMatrix();
 
 	glFlush();
 }
@@ -460,11 +473,22 @@ void time(int val) {
 
 		i++;
 	}
-
+	if ((counter > 1000) && (counter < 2000)) {
+		ssx = 0.0012;
+		ssy = 0.012;
+	}
+	else {
+		ssx = 0;
+		ssy = 0;
+	}
+	if (counter >= 3000) {
+		counter = 0;
+	}
+	counter++;
 	Angle += 3;
 
 	glutPostRedisplay();
-	glutTimerFunc(10, time, 0);
+	glutTimerFunc(1, time, 0);
 }
 void moveCannonTime(int val) {
 	if (moveCannon) {
