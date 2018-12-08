@@ -29,6 +29,9 @@ double bulletZ = 10000;
 double cannonX = 1.4;
 double cannonZ = 1.4;
 
+float cannonR = -135;
+
+
 int Angle = 0;
 int appear = 0;
 
@@ -38,6 +41,7 @@ double ssy = 0;
 int counter;
 
 bool moveCannon = false;
+bool Leval2 = false;
 
 
 using std::vector;
@@ -163,8 +167,9 @@ Camera camera;
 void shoot(double x, double z) {
 
 	glPushMatrix();
-
 	glEnable(GL_TEXTURE_2D);
+	if (Leval2)
+		glTranslated(x, 0, z + 0.18);
 	glTranslated(x - 0.2, 0.25, z - 0.2);
 	glScaled(0.003, 0.003, 0.003);
 	model_ball.Draw();
@@ -206,8 +211,6 @@ void Circle1() {
 	glPushMatrix();
 	glScaled(0.0096, 0.001, 0.0096);
 	model_circle.Draw();
-	/*glScaled(1, 0.01, 1);
-	glutSolidSphere(0.2, 100, 100);*/
 	glPopMatrix();
 
 }
@@ -231,6 +234,7 @@ void Circle2() {
 	glScaled(0.0096, 0.001, 0.0096);
 	model_circle.Draw();
 	glPopMatrix();
+
 
 }
 void drawWall1() {
@@ -293,7 +297,7 @@ void drawCannon() {
 	glEnable(GL_TEXTURE_2D);
 
 	glTranslated(cannonX, 0.15, cannonZ);
-	glRotated(-135, 0, 1, 0);
+	glRotated(cannonR, 0, 1, 0);
 	glRotated(90, 1, 0, 0);
 	glScaled(0.005, 0.005, 0.005);
 	model_cannon.Draw();
@@ -328,7 +332,7 @@ void LoadAssets()
 	model_circle.Load("Models/sphere/sphere.3ds");
 	model_building1.Load("Models/building 1/building1.3ds");
 	model_building2.Load("Models/building2/building2.3ds");
-	model_sheild.Load("Models/sheild/sheild.3ds");
+	//model_sheild.Load("Models/sheild/sheild.3ds");
 
 	// Loading texture files
 	//tex_ground.Load("Textures/ground.bmp");
@@ -359,27 +363,27 @@ void Display() {
 	drawBackG();
 
 	//	The First Building
-	First_Building();
+	//First_Building();
 
 	//	The Second Building
-	//Second_Building();
+	Second_Building();
 
 
 	// The bullet 
 	drawBullet();
 
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslated(0.14, 0.04, 0.15);
 	glScaled(ssx, ssy, ssx);
 	glRotated(40, 0, 1, 0);
 	model_sheild.Draw();
 	glPopMatrix();
-
+*/
 	glFlush();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
-	float d = 0.01;
+	float d = 0.03;
 
 	switch (key) {
 	case 'w':
@@ -402,8 +406,8 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 	case'x': {
 		Bullet bullet;
-		bullet.x = 1.4;
-		bullet.z = 1.4;
+		bullet.x = cannonX;
+		bullet.z = cannonZ;
 		bulletArray.push_back(bullet);
 		break;
 	}
@@ -412,6 +416,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 	case'm':
 		moveCannon = !moveCannon;
+		break;
+	case'l':
+		Leval2 = !Leval2;
 		break;
 		//Cannon view
 	case'1':
@@ -461,15 +468,30 @@ void Special(int key, int x, int y) {
 
 //	Bullets time
 void time(int val) {
+	Leval2 = true;
+	if (Leval2) {
+		cannonX = 0;
+		cannonZ = 0;
+		cannonR = -90;
+	}
 	int i = 0;
 	while (i < bulletArray.size()) {
-		bulletArray[i].x = bulletArray[i].x - 0.05;
-		bulletArray[i].z = bulletArray[i].z - 0.05;
-
-		if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
-			bulletArray[i].x = 10000000;
-			bulletArray[i].z = 10000000;
+		if (Leval2) {
+			bulletArray[i].x = bulletArray[i].x - 0.05;
+			if (bulletArray[i].x < -0.7) {
+				bulletArray[i].x = 10000000;
+			}
 		}
+		else {
+			bulletArray[i].x = bulletArray[i].x - 0.05;
+			bulletArray[i].z = bulletArray[i].z - 0.05;
+
+			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
+				bulletArray[i].x = 10000000;
+				bulletArray[i].z = 10000000;
+			}
+		}
+
 
 		i++;
 	}
@@ -494,8 +516,12 @@ void moveCannonTime(int val) {
 	if (moveCannon) {
 		cannonX -= 0.01;
 		cannonZ -= 0.01;
-		camera.moveZ(0.01);
+		if (cannonX <= 0 && cannonZ <= 0) {
+			Leval2 = true;
+			return;
+		}
 	}
+
 	glutPostRedisplay();
 	glutTimerFunc(100, moveCannonTime, 0);
 }
