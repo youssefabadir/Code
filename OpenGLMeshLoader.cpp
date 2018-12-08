@@ -61,7 +61,6 @@ public:
 	}
 };
 vector<Bullet> bulletArray;
-
 class Vector3f {
 public:
 	float x, y, z;
@@ -96,7 +95,6 @@ public:
 		return Vector3f(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 	}
 };
-
 class Camera {
 public:
 	Vector3f eye, center, up;
@@ -155,8 +153,6 @@ public:
 };
 
 Camera camera;
-
-
 void shoot(double x, double z) {
 
 	glPushMatrix();
@@ -170,7 +166,6 @@ void shoot(double x, double z) {
 	glPopMatrix();
 
 }
-
 void drawShoots() {
 	for (int i = 0; i < bulletArray.size(); i++) {
 		double pointX = bulletArray[i].x;
@@ -285,7 +280,6 @@ void setupCamera() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera.look();
-
 }
 void drawCannon() {
 	glPushMatrix();
@@ -456,8 +450,14 @@ void Special(int key, int x, int y) {
 void time(int val) {
 	int i = 0;
 	while (i < bulletArray.size()) {
-		bulletArray[i].x = bulletArray[i].x - 0.01;
-		bulletArray[i].z = bulletArray[i].z - 0.01;
+		bulletArray[i].x = bulletArray[i].x - 0.05;
+		bulletArray[i].z = bulletArray[i].z - 0.05;
+
+		if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
+			bulletArray[i].x = 10000000;
+			bulletArray[i].z = 10000000;
+		}
+
 		i++;
 	}
 
