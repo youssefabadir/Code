@@ -34,6 +34,7 @@ float cannonR = -135;
 
 int Angle = 0;
 int appear = 0;
+int scoreLevel_1 = 10;
 
 double ssx = 0;
 double ssy = 0;
@@ -42,6 +43,7 @@ int counter;
 
 bool moveCannon = false;
 bool Leval2 = false;
+bool showT1 = true;
 
 
 using std::vector;
@@ -374,6 +376,16 @@ void drawTexture() {
 		drawBackG();
 	}
 }
+void drawTowers() {
+	if (Leval2) {
+		Second_Building();
+	}
+	else {
+		if (showT1) {
+			First_Building();
+		}
+	}
+}
 void Display() {
 	setupCamera();
 	setupLights();
@@ -395,12 +407,8 @@ void Display() {
 
 	drawTexture();
 
-	//	The First Building
-	//First_Building();
-
-	//	The Second Building
-	Second_Building();
-
+	//	The Buildings
+	drawTowers();
 
 	// The bullet 
 	drawBullet();
@@ -470,8 +478,8 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Normal view
 	case'2':
 		if (Leval2) {
-			camera.eye = Vector3f(1.158504, 0.485429, -0.054893);
-			camera.center = Vector3f(0.165317, 0.440999, 0.052837);
+			camera.eye = Vector3f(0.589509, 0.411798, -0.039944);
+			camera.center = Vector3f(-0.403678, 0.367368, 0.067786);
 			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
 		}
 		else {
@@ -545,6 +553,11 @@ void time(int val) {
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
+				scoreLevel_1 -= 1;
+				if (scoreLevel_1 <= 0) {
+					moveCannon = true;
+					showT1 = false;
+				}
 			}
 		}
 		i++;
@@ -570,7 +583,13 @@ void moveCannonTime(int val) {
 	if (moveCannon) {
 		cannonX -= 0.01;
 		cannonZ -= 0.01;
+		camera.moveZ(0.015);
+		camera.moveY(0.005);
+
 		if (cannonX <= 0 && cannonZ <= 0) {
+			camera.eye = Vector3f(0.589509, 0.411798, -0.039944);
+			camera.center = Vector3f(-0.403678, 0.367368, 0.067786);
+			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
 			Leval2 = true;
 			return;
 		}
