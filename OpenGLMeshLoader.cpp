@@ -101,9 +101,9 @@ class Camera {
 public:
 	Vector3f eye, center, up;
 
-	Camera(float eyeX = 1.311769f, float eyeY = 1.0f, float eyeZ = 1.311769f,
-		float centerX = 0.311769f, float centerY = 0.311769f, float centerZ = 0.311769f,
-		float upX = 0.0f, float upY = 1.0f, float upZ = 0.0f) {
+	Camera(float eyeX = 2.153990, float eyeY = 1.198691, float eyeZ = 2.153990,
+		float centerX = 1.518272, float centerY = 0.778625, float centerZ = 1.518272,
+		float upX = -0.297031, float upY = 0.899040, float upZ = -0.297031) {
 		eye = Vector3f(eyeX, eyeY, eyeZ);
 		center = Vector3f(centerX, centerY, centerZ);
 		up = Vector3f(upX, upY, upZ);
@@ -395,8 +395,8 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 	case'x': {
 		Bullet bullet;
-		bullet.x = 0.8;
-		bullet.z = 0.8;
+		bullet.x = 1.4;
+		bullet.z = 1.4;
 		bulletArray.push_back(bullet);
 		break;
 	}
@@ -408,20 +408,20 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 		//Cannon view
 	case'1':
-		camera.eye = Vector3f(0.657278, 0.233926, 0.657278);
-		camera.center = Vector3f(-0.036958, 0.423853, -0.036958);
-		camera.up = Vector3f(0.134299, 0.981798, 0.134299);
+		camera.eye = Vector3f(1.175055, 0.230940, 1.175055);
+		camera.center = Vector3f(0.470695, 0.142894, 0.470695);
+		camera.up = Vector3f(-0.062258, 0.996117, -0.062258);
 		break;
 		//Normal view
 	case'2':
-		camera.eye = Vector3f(1.487607, 0.902315, 1.487607);
-		camera.center = Vector3f(0.804759, 0.642628, 0.804759);
-		camera.up = Vector3f(-0.183627, 0.965693, -0.183627);
+		camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
+		camera.center = Vector3f(1.518272, 0.778625, 1.518272);
+		camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
 		break;
 		//Top view
 	case'3':
-		camera.eye = Vector3f(0.131845, 3.332344, 0.223735);
-		camera.center = Vector3f(-0.012518, 2.347410, 0.128527);
+		camera.eye = Vector3f(0.713336, 3.862442, 0.685207);
+		camera.center = Vector3f(0.568973, 2.877508, 0.589999);
 		camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
 		break;
 
