@@ -4,10 +4,8 @@
 #include <vector>
 #include "TextureBuilder.h"
 #include "Model_3DS.h"
-
 #include "GLTexture.h"
 #include <glut.h>
-
 #ifdef __linux__
 #include <GL/glut.h>
 #endif
