@@ -499,9 +499,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Cannon view
 	case'1':
 		if (Leval2) {
-			camera.eye = Vector3f(-0.238113, 0.252845, -0.025670);
-			camera.center = Vector3f(-1.232665, 0.202585, 0.065665);
-			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
+			camera.eye = Vector3f(-0.238113, 0.252845, -0.02);
+			camera.center = Vector3f(-1.232665, 0.202585, 0);
+			camera.up = Vector3f(-0.077719, 0.941384, 0);
 		}
 		else {
 			camera.eye = Vector3f(1.175055, 0.230940, 1.175055);
@@ -512,9 +512,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Normal view
 	case'2':
 		if (Leval2) {
-			camera.eye = Vector3f(0.589509, 0.411798, -0.039944);
-			camera.center = Vector3f(-0.403678, 0.367368, 0.067786);
-			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
+			camera.eye = Vector3f(1, 0.7, 0);
+			camera.center = Vector3f(-0.403678, 0.367368, 0.0);
+			camera.up = Vector3f(-0.077719, 0.941384, 0);
 		}
 		else {
 			camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
@@ -626,9 +626,9 @@ void moveCannonTime(int val) {
 		camera.moveY(0.005);
 
 		if (cannonX <= 0 && cannonZ <= 0) {
-			camera.eye = Vector3f(0.589509, 0.411798, -0.039944);
-			camera.center = Vector3f(-0.403678, 0.367368, 0.067786);
-			camera.up = Vector3f(-0.077719, 0.941384, -0.328263);
+			camera.eye = Vector3f(1, 0.7, 0);
+			camera.center = Vector3f(-0.403678, 0.367368, 0.0);
+			camera.up = Vector3f(-0.077719, 0.941384, 0);
 			Leval2 = true;
 			return;
 		}
