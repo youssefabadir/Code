@@ -644,7 +644,7 @@ void timeAll(int val) {
 }
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
-	scoreLevel_1[1] = 50;
+	scoreLevel_1[1] = 10;
 	scoreLevel_1[2] = 50;
 
 	glutInitWindowSize(640, 480);
