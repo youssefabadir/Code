@@ -49,6 +49,8 @@ bool showT1 = true;
 bool showSt = true;
 bool moving = false;
 double moveDown = 1.55;
+double building2Y = 0.005;
+
 
 using std::vector;
 using namespace std;
@@ -286,7 +288,7 @@ void First_Building() {
 void Second_Building() {
 	glPushMatrix();
 	glTranslated(-2.4, 0.02, 0.12);
-	glScaled(0.008, 0.008, 0.008);
+	glScaled(0.008, building2Y, 0.008);
 	model_building2.Draw();
 	glPopMatrix();
 }
@@ -652,7 +654,7 @@ void moveCannonTime(int val) {
 		cannonX -= 0.01;
 		cannonZ -= 0.01;
 		camera.moveZ(0.015);
-		camera.moveY(0.005);
+		camera.moveY(0.001);
 
 		if (cannonX <= 0 && cannonZ <= 0) {
 			camera.eye = Vector3f(1, 0.7, 0);
@@ -666,10 +668,19 @@ void moveCannonTime(int val) {
 	glutPostRedisplay();
 	glutTimerFunc(100, moveCannonTime, 0);
 }
+void moveB2(int val) {
+	building2Y += 0.0005;
+	if (building2Y >= 0.013) {
+		building2Y = 0.005;
+	}
+	glutPostRedisplay();
+	glutTimerFunc(100, moveB2, 0);
+}
 
 void timeAll(int val) {
 	time(val);
 	moveCannonTime(val);
+	moveB2(val);
 }
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
