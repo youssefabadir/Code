@@ -440,7 +440,7 @@ void drawCup() {
 	}
 }
 void drawSheild(double ssx, double ssy) {
-	if (!Leval2) {
+	if (!Leval2 && !moveCannon) {
 		glPushMatrix();
 		glTranslated(0.14, 0.04, 0.15);
 		glScaled(ssx, ssy, ssx);
