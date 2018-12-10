@@ -480,11 +480,19 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
+<<<<<<< HEAD
 	if (sheild) {
 		drawSheild(0.0012, 0.012);
 	}
 	else {
 		drawSheild(0, 0);
+=======
+		if (sheild) {
+			drawSheild(0.0012, 0.017);
+		}
+		else {
+			drawSheild(0, 0);
+>>>>>>> 5c134cd79fc3727d58aedf65700bbdfbfe495f60
 
 	}
 	glFlush();
