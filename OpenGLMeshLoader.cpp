@@ -682,8 +682,17 @@ void time(int val) {
 	while (i < bulletArray.size()) {
 		if (Leval2) {
 			bulletArray[i].x = bulletArray[i].x - 0.1;
+			if (sheild == true && bulletArray[i].x < -0.9) {
+				bulletArray[i].x = 10000000;
+				//lose
+			}
 			if (bulletArray[i].x < -1) {
 				bulletArray[i].x = 10000000;
+				scoreLevel_1[3] -= 1;
+				scoreLevel_1[2] += 10;
+				if (scoreLevel_1[3] <= 0) {
+					//win
+				}
 			}
 		}
 		else {
@@ -692,6 +701,7 @@ void time(int val) {
 			if (sheild == true && bulletArray[i].x < 0.3 && bulletArray[i].z < 0.3) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
+				//lose
 			}
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
@@ -767,6 +777,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	scoreLevel_1[1] = 10;
 	scoreLevel_1[2] = 0;
+	scoreLevel_1[3] = 50;
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
