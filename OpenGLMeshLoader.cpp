@@ -37,10 +37,6 @@ int appear = 0;
 int scoreLevel_1[3];
 int scoreLevel_2[3];
 
-
-double ssx = 0;
-double ssy = 0;
-
 int counter;
 
 bool moveCannon = false;
@@ -50,7 +46,7 @@ bool showSt = true;
 bool moving = false;
 double moveDown = 1.55;
 double building2Y = 0.005;
-
+bool sheild = false;
 
 using std::vector;
 using namespace std;
@@ -375,8 +371,7 @@ void LoadAssets()
 	model_building2.Load("Models/building2/building2.3ds");
 	model_diamond.Load("Models/diamond/star.3ds");
 	model_cup.Load("Models/cup/star.3ds");
-
-	//model_sheild.Load("Models/sheild/sheild.3ds");
+	model_sheild.Load("Models/sheild/sheild.3ds");
 
 	// Loading texture files
 	//tex_ground.Load("Textures/ground.bmp");
@@ -440,7 +435,15 @@ void drawCup() {
 		glPopMatrix();
 	}
 }
+void drawSheild(double ssx, double ssy) {
+	glPushMatrix();
+	glTranslated(0.14, 0.04, 0.15);
+	glScaled(ssx, ssy, ssx);
+	glRotated(40, 0, 1, 0);
+	model_sheild.Draw();
+	glPopMatrix();
 
+}
 void Display() {
 	setupCamera();
 	setupLights();
@@ -477,13 +480,13 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
-	/*glPushMatrix();
-	glTranslated(0.14, 0.04, 0.15);
-	glScaled(ssx, ssy, ssx);
-	glRotated(40, 0, 1, 0);
-	model_sheild.Draw();
-	glPopMatrix();
-*/
+	if (sheild) {
+		drawSheild(0.0012, 0.012);
+	}
+	else {
+		drawSheild(0, 0);
+
+	}
 	glFlush();
 }
 
@@ -610,6 +613,7 @@ void actM(int button, int state, int x, int y) {
 
 //	Bullets time
 void time(int val) {
+	counter++;
 
 	if (Leval2) {
 		moveCannon = false;
@@ -652,22 +656,19 @@ void time(int val) {
 	if (moveDown <= 0.2) {
 		moving = false;
 	}
-	if ((counter > 1000) && (counter < 2000)) {
-		ssx = 0.0012;
-		ssy = 0.012;
+	if ((counter >= 100) && (counter < 200)) {
+		sheild = true;
 	}
 	else {
-		ssx = 0;
-		ssy = 0;
+		sheild = false;
 	}
-	if (counter >= 3000) {
+	if (counter >= 300) {
 		counter = 0;
 	}
-	counter++;
 	Angle += 3;
 
 	glutPostRedisplay();
-	glutTimerFunc(1, time, 0);
+	glutTimerFunc(10, time, 0);
 }
 void moveCannonTime(int val) {
 	if (moveCannon) {
