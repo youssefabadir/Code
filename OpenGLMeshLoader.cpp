@@ -413,7 +413,7 @@ void drawDiamond() {
 			glTranslated(0, moveDown, 0);
 
 		}
-		
+
 		glScaled(0.0006, 0.0006, 0.0006);
 		glRotated(Angle, 0, 1, 0);
 		model_diamond.Draw();
@@ -577,7 +577,7 @@ void Special(int key, int x, int y) {
 	glutPostRedisplay();
 }
 void actM(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && !moving && !moveCannon)
 	{
 		Bullet bullet;
 		bullet.x = cannonX;
@@ -611,7 +611,7 @@ void time(int val) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
 				scoreLevel_1[1] -= 1;
-				
+
 				if (scoreLevel_1[1] == 0) {
 					showT1 = false;
 				}
