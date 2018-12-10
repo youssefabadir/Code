@@ -480,7 +480,6 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
-	<<<<<< < HEAD
 		if (sheild) {
 			drawSheild(0.0012, 0.012);
 		}
