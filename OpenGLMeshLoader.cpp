@@ -452,32 +452,32 @@ void drawSheild(double ssx, double ssy) {
 void Score() {
 	if (view2) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 1.5, -1.5, (char *)p1s);
 	}
 	if (view1) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 0.6, 0.1, (char *)p1s);
 	}
 	if (view3) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0, 0.2, -2.5, (char *)p1s);
 	}
 	if (view2 && Leval2) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 1.5, -1.5, (char *)p1s);
 	}
 	if (view1 && Leval2) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 0.6, 0.1, (char *)p1s);
 	}
 	if (view3 && Leval2) {
 		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0, 0.2, -2.5, (char *)p1s);
 	}
 }
@@ -501,7 +501,6 @@ void Display() {
 	drawCannon();
 
 	//	The background
-
 	drawTexture();
 
 	//	The Buildings
@@ -513,19 +512,11 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
-<<<<<<< HEAD
 	if (sheild) {
-		drawSheild(0.0012, 0.012);
+		drawSheild(0.0012, 0.017);
 	}
 	else {
 		drawSheild(0, 0);
-=======
-		if (sheild) {
-			drawSheild(0.0012, 0.017);
-		}
-		else {
-			drawSheild(0, 0);
->>>>>>> 5c134cd79fc3727d58aedf65700bbdfbfe495f60
 
 	}
 	glFlush();
@@ -680,18 +671,22 @@ void time(int val) {
 		else {
 			bulletArray[i].x = bulletArray[i].x - 0.1;
 			bulletArray[i].z = bulletArray[i].z - 0.1;
-
+			if (sheild == true && bulletArray[i].x < 0.3 && bulletArray[i].z < 0.3) {
+				bulletArray[i].x = 10000000;
+				bulletArray[i].z = 10000000;
+			}
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
 				scoreLevel_1[1] -= 1;
-
+				scoreLevel_1[2] += 10;
 				if (scoreLevel_1[1] == 0) {
 					showT1 = false;
 				}
 				if (scoreLevel_1[1] == -1) {
 					moveCannon = true;
 					showSt = false;
+					scoreLevel_1[2] += 250;
 				}
 			}
 		}
@@ -753,7 +748,7 @@ void timeAll(int val) {
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	scoreLevel_1[1] = 10;
-	scoreLevel_1[2] = 50;
+	scoreLevel_1[2] = 0;
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
