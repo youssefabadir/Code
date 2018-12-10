@@ -53,6 +53,7 @@ bool view2 = true;
 bool view3 = false;
 bool win = false;
 bool lose = false;
+bool showT2 = true;
 
 using std::vector;
 using namespace std;
@@ -399,7 +400,8 @@ void drawTexture() {
 }
 void drawTowers() {
 	if (Leval2) {
-		Second_Building();
+		if (showT2)
+			Second_Building();
 	}
 	else {
 		if (showT1) {
@@ -717,6 +719,9 @@ void time(int val) {
 				scoreLevel_1[3] -= 1;
 				scoreLevel_1[2] += 10;
 				if (scoreLevel_1[3] <= 0) {
+					showT2 = false;
+				}
+				if (scoreLevel_1[3] == -5) {
 					win = true;
 				}
 			}
@@ -803,7 +808,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	scoreLevel_1[1] = 10;
 	scoreLevel_1[2] = 0;
-	scoreLevel_1[3] = 50;
+	scoreLevel_1[3] = 10;
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
