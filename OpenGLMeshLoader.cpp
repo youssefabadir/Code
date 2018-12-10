@@ -425,19 +425,12 @@ void drawDiamond() {
 	}
 }
 void drawCup() {
-	if (showSt) {
+	if (Leval2) {
 		glPushMatrix();
-		if (showT1) {
-			glTranslated(0, 1.55, 0);
-		}
-		else {
-			glTranslated(0, moveDown, 0);
-
-		}
-
+		glTranslated(-2.4, 0.2, 0);
 		glScaled(0.0006, 0.0006, 0.0006);
 		glRotated(Angle, 0, 1, 0);
-		model_diamond.Draw();
+		model_cup.Draw();
 		glPopMatrix();
 	}
 }
@@ -545,6 +538,8 @@ void Display() {
 
 	//	The diamond
 	drawDiamond();
+
+	drawCup();
 
 	if (sheild) {
 		drawSheild(0.0012, 0.017);
