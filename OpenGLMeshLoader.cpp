@@ -48,6 +48,10 @@ double moveDown = 1.55;
 double building2Y = 0.005;
 bool sheild = false;
 
+bool view1 = false;
+bool view2 = true;
+bool view3 = false;
+
 using std::vector;
 using namespace std;
 
@@ -436,13 +440,46 @@ void drawCup() {
 	}
 }
 void drawSheild(double ssx, double ssy) {
-	glPushMatrix();
-	glTranslated(0.14, 0.04, 0.15);
-	glScaled(ssx, ssy, ssx);
-	glRotated(40, 0, 1, 0);
-	model_sheild.Draw();
-	glPopMatrix();
-
+	if (!Leval2) {
+		glPushMatrix();
+		glTranslated(0.14, 0.04, 0.15);
+		glScaled(ssx, ssy, ssx);
+		glRotated(40, 0, 1, 0);
+		model_sheild.Draw();
+		glPopMatrix();
+	}
+}
+void Score() {
+	if (view2) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0.8, 1.5, -1.5, (char *)p1s);
+	}
+	if (view1) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0.8, 0.6, 0.1, (char *)p1s);
+	}
+	if (view3) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0, 0.2, -2.5, (char *)p1s);
+	}
+	if (view2 && Leval2) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0.8, 1.5, -1.5, (char *)p1s);
+	}
+	if (view1 && Leval2) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0.8, 0.6, 0.1, (char *)p1s);
+	}
+	if (view3 && Leval2) {
+		char* p1s[20];
+		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
+		printText(0, 0.2, -2.5, (char *)p1s);
+	}
 }
 void Display() {
 	setupCamera();
@@ -457,12 +494,8 @@ void Display() {
 	Circle2();
 	drawWall2();
 	glPopMatrix();
-	if (showT1) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[1]);
-		printText(0.8, 0.2, 0.9, (char *)p1s);
-	}
 
+	Score();
 
 	//	The player
 	drawCannon();
@@ -547,6 +580,9 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.up = Vector3f(-0.077719, 0.941384, 0);
 		}
 		else {
+			view1 = true;
+			view2 = false;
+			view3 = false;
 			camera.eye = Vector3f(1.175055, 0.230940, 1.175055);
 			camera.center = Vector3f(0.470695, 0.142894, 0.470695);
 			camera.up = Vector3f(-0.062258, 0.996117, -0.062258);
@@ -560,6 +596,9 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.up = Vector3f(-0.077719, 0.941384, 0);
 		}
 		else {
+			view1 = false;
+			view2 = true;
+			view3 = false;
 			camera.eye = Vector3f(2.2, 1.198691, 2.2);
 			camera.center = Vector3f(1.8, 1, 1.8);
 			camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
@@ -574,6 +613,9 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
 		}
 		else {
+			view1 = false;
+			view2 = false;
+			view3 = true;
 			camera.eye = Vector3f(0.713336, 3.862442, 0.685207);
 			camera.center = Vector3f(0.568973, 2.877508, 0.589999);
 			camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
