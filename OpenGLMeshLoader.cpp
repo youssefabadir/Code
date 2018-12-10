@@ -578,14 +578,14 @@ void time(int val) {
 	int i = 0;
 	while (i < bulletArray.size()) {
 		if (Leval2) {
-			bulletArray[i].x = bulletArray[i].x - 0.05;
+			bulletArray[i].x = bulletArray[i].x - 0.1;
 			if (bulletArray[i].x < -1) {
 				bulletArray[i].x = 10000000;
 			}
 		}
 		else {
-			bulletArray[i].x = bulletArray[i].x - 0.05;
-			bulletArray[i].z = bulletArray[i].z - 0.05;
+			bulletArray[i].x = bulletArray[i].x - 0.1;
+			bulletArray[i].z = bulletArray[i].z - 0.1;
 
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
