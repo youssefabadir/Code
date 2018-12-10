@@ -480,14 +480,14 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
-		if (sheild) {
-			drawSheild(0.0012, 0.012);
-		}
-		else {
-			drawSheild(0, 0);
+	if (sheild) {
+		drawSheild(0.0012, 0.012);
+	}
+	else {
+		drawSheild(0, 0);
 
-		}
-		glFlush();
+	}
+	glFlush();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
@@ -612,13 +612,13 @@ void actM(int button, int state, int x, int y) {
 
 //	Bullets time
 void time(int val) {
-		counter++;
-		if (Leval2) {
-			moveCannon = false;
-			cannonX = 0;
-			cannonZ = 0;
-			cannonR = -90;
-		}
+	counter++;
+	if (Leval2) {
+		moveCannon = false;
+		cannonX = 0;
+		cannonZ = 0;
+		cannonR = -90;
+	}
 	int i = 0;
 	while (i < bulletArray.size()) {
 		if (Leval2) {
