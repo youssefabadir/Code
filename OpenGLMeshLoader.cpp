@@ -448,19 +448,28 @@ void drawSheild(double ssx, double ssy) {
 		model_sheild.Draw();
 		glPopMatrix();
 	}
+	if (Leval2) {
+		glPushMatrix();
+		glTranslated(-2.2, 0.18, 0);
+		glScaled(ssx, ssy, ssx);
+		glRotated(90, 0, 1, 0);
+		model_sheild.Draw();
+		glPopMatrix();
+
+	}
 }
 void Score() {
-	if (view2) {
+	if (view2 && !Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 1.5, -1.5, (char *)p1s);
 	}
-	if (view1) {
+	if (view1 && !Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0.8, 0.6, 0.1, (char *)p1s);
 	}
-	if (view3) {
+	if (view3 && !Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 		printText(0, 0.2, -2.5, (char *)p1s);
@@ -468,17 +477,17 @@ void Score() {
 	if (view2 && Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0.8, 1.5, -1.5, (char *)p1s);
+		printText(0, 0.8, -0.4, (char *)p1s);
 	}
 	if (view1 && Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0.8, 0.6, 0.1, (char *)p1s);
+		printText(-0.8, 0.5, -0.3, (char *)p1s);
 	}
 	if (view3 && Leval2) {
 		char* p1s[20];
 		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0, 0.2, -2.5, (char *)p1s);
+		printText(-0.8, 0.6, -4, (char *)p1s);
 	}
 }
 void Display() {
@@ -566,6 +575,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Cannon view
 	case'1':
 		if (Leval2) {
+			view1 = true;
+			view2 = false;
+			view3 = false;
 			camera.eye = Vector3f(-0.238113, 0.252845, -0.02);
 			camera.center = Vector3f(-1.232665, 0.202585, 0);
 			camera.up = Vector3f(-0.077719, 0.941384, 0);
@@ -582,6 +594,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Normal view
 	case'2':
 		if (Leval2) {
+			view1 = false;
+			view2 = true;
+			view3 = false;
 			camera.eye = Vector3f(1, 0.7, 0);
 			camera.center = Vector3f(-0.403678, 0.367368, 0.0);
 			camera.up = Vector3f(-0.077719, 0.941384, 0);
@@ -599,6 +614,9 @@ void Keyboard(unsigned char key, int x, int y) {
 		//Top view
 	case'3':
 		if (Leval2) {
+			view1 = false;
+			view2 = false;
+			view3 = true;
 			camera.eye = Vector3f(-1.478001, 3.826365, 1.043186);
 			camera.center = Vector3f(-1.364208, 2.912856, 0.652606);
 			camera.up = Vector3f(-0.761961, 0.172035, -0.624355);
