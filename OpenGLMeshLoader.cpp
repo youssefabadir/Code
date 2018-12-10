@@ -64,7 +64,7 @@ Model_3DS model_building1;
 Model_3DS model_building2;
 Model_3DS model_sheild;
 Model_3DS model_diamond;
-
+Model_3DS model_cup;
 
 GLuint tex;
 GLuint tex2;
@@ -374,6 +374,7 @@ void LoadAssets()
 	model_building1.Load("Models/building 1/building1.3ds");
 	model_building2.Load("Models/building2/building2.3ds");
 	model_diamond.Load("Models/diamond/star.3ds");
+	model_cup.Load("Models/cup/star.3ds");
 
 	//model_sheild.Load("Models/sheild/sheild.3ds");
 
@@ -422,6 +423,24 @@ void drawDiamond() {
 		glPopMatrix();
 	}
 }
+void drawCup() {
+	if (showSt) {
+		glPushMatrix();
+		if (showT1) {
+			glTranslated(0, 1.55, 0);
+		}
+		else {
+			glTranslated(0, moveDown, 0);
+
+		}
+
+		glScaled(0.0006, 0.0006, 0.0006);
+		glRotated(Angle, 0, 1, 0);
+		model_diamond.Draw();
+		glPopMatrix();
+	}
+}
+
 void Display() {
 	setupCamera();
 	setupLights();
@@ -593,6 +612,7 @@ void actM(int button, int state, int x, int y) {
 void time(int val) {
 
 	if (Leval2) {
+		moveCannon = false;
 		cannonX = 0;
 		cannonZ = 0;
 		cannonR = -90;
