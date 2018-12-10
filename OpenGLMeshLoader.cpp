@@ -47,7 +47,8 @@ bool moveCannon = false;
 bool Leval2 = false;
 bool showT1 = true;
 bool showSt = true;
-
+bool moving = false;
+double moveDown = 1.55;
 
 using std::vector;
 using namespace std;
@@ -119,8 +120,8 @@ class Camera {
 public:
 	Vector3f eye, center, up;
 
-	Camera(float eyeX = 2.153990, float eyeY = 1.198691, float eyeZ = 2.153990,
-		float centerX = 1.518272, float centerY = 0.778625, float centerZ = 1.518272,
+	Camera(float eyeX = 2.2, float eyeY = 1.198691, float eyeZ = 2.2,
+		float centerX = 1.8, float centerY = 1, float centerZ = 1.8,
 		float upX = -0.297031, float upY = 0.899040, float upZ = -0.297031) {
 		eye = Vector3f(eyeX, eyeY, eyeZ);
 		center = Vector3f(centerX, centerY, centerZ);
@@ -403,10 +404,17 @@ void drawTowers() {
 	}
 }
 void drawDiamond() {
-	if (showT1 == false && showSt == true) {
+	if (showSt) {
 		glPushMatrix();
-		glTranslated(0, 0.2, 0);
-		glScaled(0.05, 0.05, 0.05);
+		if (showT1) {
+			glTranslated(0, 1.55, 0);
+		}
+		else {
+			glTranslated(0, moveDown, 0);
+
+		}
+		
+		glScaled(0.0006, 0.0006, 0.0006);
 		glRotated(Angle, 0, 1, 0);
 		model_diamond.Draw();
 		glPopMatrix();
@@ -481,11 +489,13 @@ void Keyboard(unsigned char key, int x, int y) {
 		camera.moveZ(-d);
 		break;
 	case'x': {
-		Bullet bullet;
-		bullet.x = cannonX;
-		bullet.z = cannonZ;
-		bulletArray.push_back(bullet);
-		break;
+		if (!moving && !moveCannon) {
+			Bullet bullet;
+			bullet.x = cannonX;
+			bullet.z = cannonZ;
+			bulletArray.push_back(bullet);
+			break;
+		}
 	}
 	case'p':
 		printCamera();
@@ -517,8 +527,8 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.up = Vector3f(-0.077719, 0.941384, 0);
 		}
 		else {
-			camera.eye = Vector3f(2.153990, 1.198691, 2.153990);
-			camera.center = Vector3f(1.518272, 0.778625, 1.518272);
+			camera.eye = Vector3f(2.2, 1.198691, 2.2);
+			camera.center = Vector3f(1.8, 1, 1.8);
 			camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
 
 
@@ -591,8 +601,10 @@ void time(int val) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
 				scoreLevel_1[1] -= 1;
-				if (scoreLevel_1[1] == 0)
+				
+				if (scoreLevel_1[1] == 0) {
 					showT1 = false;
+				}
 				if (scoreLevel_1[1] == -1) {
 					moveCannon = true;
 					showSt = false;
@@ -600,6 +612,13 @@ void time(int val) {
 			}
 		}
 		i++;
+	}
+	if (!showT1 && (moveDown > 0.2)) {
+		moving = true;
+		moveDown -= 0.01;
+	}
+	if (moveDown <= 0.2) {
+		moving = false;
 	}
 	if ((counter > 1000) && (counter < 2000)) {
 		ssx = 0.0012;
