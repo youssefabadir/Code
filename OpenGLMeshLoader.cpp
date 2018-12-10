@@ -480,14 +480,15 @@ void Display() {
 	//	The diamond
 	drawDiamond();
 
-	if (sheild) {
-		drawSheild(0.0012, 0.012);
-	}
-	else {
-		drawSheild(0, 0);
+	<<<<<< < HEAD
+		if (sheild) {
+			drawSheild(0.0012, 0.012);
+		}
+		else {
+			drawSheild(0, 0);
 
-	}
-	glFlush();
+		}
+		glFlush();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
@@ -518,6 +519,7 @@ void Keyboard(unsigned char key, int x, int y) {
 			bullet.x = cannonX;
 			bullet.z = cannonZ;
 			bulletArray.push_back(bullet);
+			PlaySound(TEXT("sounds/laser.wav"), NULL, SND_ASYNC | SND_FILENAME);
 			break;
 		}
 	}
@@ -528,7 +530,7 @@ void Keyboard(unsigned char key, int x, int y) {
 		moveCannon = !moveCannon;
 		break;
 	case'l':
-		showT1 = false;
+		Leval2 = true;
 		break;
 		//Cannon view
 	case'1':
@@ -554,8 +556,6 @@ void Keyboard(unsigned char key, int x, int y) {
 			camera.eye = Vector3f(2.2, 1.198691, 2.2);
 			camera.center = Vector3f(1.8, 1, 1.8);
 			camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
-
-
 		}
 
 		break;
@@ -613,14 +613,13 @@ void actM(int button, int state, int x, int y) {
 
 //	Bullets time
 void time(int val) {
-	counter++;
-
-	if (Leval2) {
-		moveCannon = false;
-		cannonX = 0;
-		cannonZ = 0;
-		cannonR = -90;
-	}
+		counter++;
+		if (Leval2) {
+			moveCannon = false;
+			cannonX = 0;
+			cannonZ = 0;
+			cannonR = -90;
+		}
 	int i = 0;
 	while (i < bulletArray.size()) {
 		if (Leval2) {
@@ -676,7 +675,6 @@ void moveCannonTime(int val) {
 		cannonZ -= 0.01;
 		camera.moveZ(0.015);
 		camera.moveY(0.001);
-
 		if (cannonX <= 0 && cannonZ <= 0) {
 			camera.eye = Vector3f(1, 0.7, 0);
 			camera.center = Vector3f(-0.403678, 0.367368, 0.0);
