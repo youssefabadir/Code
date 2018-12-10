@@ -494,6 +494,9 @@ void Score() {
 }
 void Win() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	camera.eye = Vector3f(2.2, 1.198691, 2.2);
+	camera.center = Vector3f(1.8, 1, 1.8);
+	camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
 	printText(0, 0, 0, "Congrats");
 	printText(0, -0.2, 0, "your score is: ");
 	char* p1s[20];
@@ -502,6 +505,9 @@ void Win() {
 }
 void Lose() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	camera.eye = Vector3f(2.2, 1.198691, 2.2);
+	camera.center = Vector3f(1.8, 1, 1.8);
+	camera.up = Vector3f(-0.297031, 0.899040, -0.297031);
 	printText(0, 0, 0, "Game Over");
 	printText(0, -0.2, 0, "your score is: ");
 	char* p1s[20];
@@ -709,14 +715,14 @@ void time(int val) {
 			bulletArray[i].x = bulletArray[i].x - 0.1;
 			if (sheild == true && bulletArray[i].x < -0.9) {
 				bulletArray[i].x = 10000000;
-				//lose
+				lose = true;
 			}
 			if (bulletArray[i].x < -1) {
 				bulletArray[i].x = 10000000;
 				scoreLevel_1[3] -= 1;
 				scoreLevel_1[2] += 10;
 				if (scoreLevel_1[3] <= 0) {
-					//win
+					win = true;
 				}
 			}
 		}
@@ -726,7 +732,7 @@ void time(int val) {
 			if (sheild == true && bulletArray[i].x < 0.3 && bulletArray[i].z < 0.3) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
-				//lose
+				lose = true;
 			}
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
