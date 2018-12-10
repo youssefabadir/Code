@@ -566,6 +566,16 @@ void Special(int key, int x, int y) {
 
 	glutPostRedisplay();
 }
+void actM(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	{
+		Bullet bullet;
+		bullet.x = cannonX;
+		bullet.z = cannonZ;
+		bulletArray.push_back(bullet);
+	}
+	glutPostRedisplay();
+}
 
 //	Bullets time
 void time(int val) {
@@ -653,6 +663,7 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Final Project");
 	glutDisplayFunc(Display);
 	glutKeyboardFunc(Keyboard);
+	glutMouseFunc(actM);
 	glutSpecialFunc(Special);
 	glutTimerFunc(0, timeAll, 0);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
