@@ -481,7 +481,7 @@ void Display() {
 	drawDiamond();
 
 		if (sheild) {
-			drawSheild(0.0012, 0.012);
+			drawSheild(0.0012, 0.017);
 		}
 		else {
 			drawSheild(0, 0);
