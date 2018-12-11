@@ -46,7 +46,9 @@ bool showSt = true;
 bool moving = false;
 double moveDown = 1.55;
 double building2Y = 0.005;
+double moveBack = 0;
 bool sheild = false;
+bool back = false;
 
 bool view1 = false;
 bool view2 = true;
@@ -338,7 +340,7 @@ void drawBackG() {
 	glDisable(GL_LIGHTING);
 	GLUquadricObj * qobj;
 	qobj = gluNewQuadric();
-	glTranslated(50, 50, 50);
+	glTranslated(moveBack, 50, 50);
 	glRotated(90, 1, 0, 1);
 	glBindTexture(GL_TEXTURE_2D, tex);
 	gluQuadricTexture(qobj, true);
@@ -355,7 +357,7 @@ void drawBackG2() {
 	glDisable(GL_LIGHTING);
 	GLUquadricObj * qobj;
 	qobj = gluNewQuadric();
-	glTranslated(50, 30, 30);
+	glTranslated(50, 30, moveBack);
 	glRotated(90, 1, 0, 1);
 	glBindTexture(GL_TEXTURE_2D, tex2);
 	gluQuadricTexture(qobj, true);
@@ -700,6 +702,18 @@ void actM(int button, int state, int x, int y) {
 //	Bullets time
 void time(int val) {
 	counter++;
+	if (moveBack <= 0) {
+		back = false;
+	}
+	if (moveBack >= 50) {
+		back = true;
+	}
+	if (!back) {
+		moveBack += 0.3;
+	}
+	if (back) {
+		moveBack -= 0.3;
+	}
 	if (Leval2) {
 		moveCannon = false;
 		cannonX = 0;
