@@ -434,7 +434,6 @@ void drawDiamond() {
 		}
 		else {
 			glTranslated(0, moveDown, 0);
-
 		}
 
 		glScaled(0.0006, 0.0006, 0.0006);
@@ -473,35 +472,37 @@ void drawSheild(double ssx, double ssy) {
 	}
 }
 void Score() {
-	if (view2 && !Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0.8, 1.5, -1.5, (char *)p1s);
-	}
-	if (view1 && !Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0.8, 0.6, 0.1, (char *)p1s);
-	}
-	if (view3 && !Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0, 0.2, -2.5, (char *)p1s);
-	}
-	if (view2 && Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(0, 0.8, -0.4, (char *)p1s);
-	}
-	if (view1 && Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(-0.8, 0.5, -0.3, (char *)p1s);
-	}
-	if (view3 && Leval2) {
-		char* p1s[20];
-		sprintf((char *)p1s, "%d", scoreLevel_1[2]);
-		printText(-0.8, 0.6, -4, (char *)p1s);
+	if (!moveCannon) {
+		if (view2 && !Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(0.8, 1.5, -1.5, (char *)p1s);
+		}
+		if (view1 && !Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(0.8, 0.6, 0.1, (char *)p1s);
+		}
+		if (view3 && !Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(0, 0.2, -2.5, (char *)p1s);
+		}
+		if (view2 && Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(0, 0.8, -0.4, (char *)p1s);
+		}
+		if (view1 && Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(-0.8, 0.5, -0.3, (char *)p1s);
+		}
+		if (view3 && Leval2) {
+			char* p1s[20];
+			sprintf((char *)p1s, "%d", scoreLevel_1[2]);
+			printText(-0.8, 0.6, -4, (char *)p1s);
+		}
 	}
 }
 void Win() {
@@ -525,7 +526,6 @@ void Lose() {
 	char* p1s[20];
 	sprintf((char *)p1s, "%d", scoreLevel_1[2]);
 	printText(0.3, -0.3, 0, (char *)p1s);
-
 }
 void toggleLight(int val) {
 	countLight++;
@@ -616,7 +616,7 @@ void Keyboard(unsigned char key, int x, int y) {
 		camera.moveZ(-d);
 		break;
 	case'x': {
-		if (!moving && !moveCannon) {
+		if (!moving && !moveCannon && !win && !lose) {
 			Bullet bullet;
 			bullet.x = cannonX;
 			bullet.z = cannonZ;
@@ -763,6 +763,8 @@ void time(int val) {
 			if (sheild == true && bulletArray[i].x < -0.9) {
 				bulletArray[i].x = 10000000;
 				lose = true;
+				PlaySound(TEXT("sounds/lose.wav"), NULL, SND_ASYNC | SND_FILENAME);
+
 			}
 			if (bulletArray[i].x < -1) {
 				bulletArray[i].x = 10000000;
@@ -773,6 +775,7 @@ void time(int val) {
 				}
 				if (scoreLevel_1[3] == -5) {
 					win = true;
+					PlaySound(TEXT("sounds/win2.wav"), NULL, SND_ASYNC | SND_FILENAME);
 				}
 			}
 		}
@@ -783,6 +786,8 @@ void time(int val) {
 				bulletArray[i].x = 10000000;
 				bulletArray[i].z = 10000000;
 				lose = true;
+				PlaySound(TEXT("sounds/lose.wav"), NULL, SND_ASYNC | SND_FILENAME);
+
 			}
 			if (bulletArray[i].x < 0 && bulletArray[i].z < 0) {
 				bulletArray[i].x = 10000000;
@@ -791,11 +796,14 @@ void time(int val) {
 				scoreLevel_1[2] += 10;
 				if (scoreLevel_1[1] == 0) {
 					showT1 = false;
+					PlaySound(TEXT("sounds/sparkle.wav"), NULL, SND_ASYNC | SND_FILENAME);
 				}
 				if (scoreLevel_1[1] == -1) {
 					moveCannon = true;
 					showSt = false;
 					scoreLevel_1[2] += 250;
+					PlaySound(TEXT("sounds/win1.wav"), NULL, SND_ASYNC | SND_FILENAME);
+
 				}
 			}
 		}
@@ -849,8 +857,6 @@ void moveB2(int val) {
 	glutTimerFunc(100, moveB2, 0);
 }
 
-
-
 void timeAll(int val) {
 	time(val);
 	moveCannonTime(val);
@@ -862,6 +868,7 @@ int main(int argc, char** argv) {
 	scoreLevel_1[1] = 10;
 	scoreLevel_1[2] = 0;
 	scoreLevel_1[3] = 20;
+
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
