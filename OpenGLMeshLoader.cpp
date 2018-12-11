@@ -31,6 +31,7 @@ double cannonZ = 1.4;
 
 float cannonR = -135;
 
+bool u = false;
 
 int Angle = 0;
 int appear = 0;
@@ -38,6 +39,7 @@ int scoreLevel_1[3];
 int scoreLevel_2[3];
 
 int counter;
+int countLight;
 
 bool moveCannon = false;
 bool Leval2 = false;
@@ -312,6 +314,19 @@ void setupLights() {
 	glLightfv(GL_LIGHT0, GL_POSITION, lightIntensity);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightIntensity);
 }
+void Light() {
+	GLfloat ambient[] = { 0.2, 0.2, 0.2, 1.0f };
+	GLfloat diffuse[] = { 0.5f, 0.5f, 0.5, 1.0f };
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0, 1.0f };
+	glLightfv(GL_LIGHT1, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, specular);
+
+	GLfloat lightIntensity[] = { 0.7f, 0.7f, 1, 1.0f };
+	GLfloat lightPosition[] = { 0, 0, cannonZ + 1000, 1 };
+	glLightfv(GL_LIGHT1, GL_POSITION, lightIntensity);
+
+}
 void setupCamera() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -512,9 +527,26 @@ void Lose() {
 	printText(0.3, -0.3, 0, (char *)p1s);
 
 }
+void toggleLight(int val) {
+	countLight++;
+	if (countLight > 5) {
+		u = false;
+		countLight = 0;
+	}
+	glutPostRedisplay();
+	glutTimerFunc(100, toggleLight, 0);
+}
 void Display() {
 	setupCamera();
 	setupLights();
+	if (u) {
+		glEnable(GL_LIGHT1);
+		Light();
+	}
+	else {
+		glDisable(GL_LIGHT1);
+	}
+
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -590,11 +622,15 @@ void Keyboard(unsigned char key, int x, int y) {
 			bullet.z = cannonZ;
 			bulletArray.push_back(bullet);
 			PlaySound(TEXT("sounds/laser.wav"), NULL, SND_ASYNC | SND_FILENAME);
+			u = true;
 			break;
 		}
 	}
 	case'p':
 		printCamera();
+		break;
+	case'u':
+		u = !u;
 		break;
 	case'm':
 		moveCannon = !moveCannon;
@@ -813,10 +849,13 @@ void moveB2(int val) {
 	glutTimerFunc(100, moveB2, 0);
 }
 
+
+
 void timeAll(int val) {
 	time(val);
 	moveCannonTime(val);
 	moveB2(val);
+	toggleLight(val);
 }
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
@@ -840,6 +879,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
 
