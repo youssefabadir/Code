@@ -822,7 +822,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	scoreLevel_1[1] = 10;
 	scoreLevel_1[2] = 0;
-	scoreLevel_1[3] = 10;
+	scoreLevel_1[3] = 20;
 
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(50, 50);
